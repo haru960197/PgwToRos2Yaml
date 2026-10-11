@@ -45,6 +45,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- KaTeX for elegant math typography -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
   <style>
     /* Custom scrollbars */
     ::-webkit-scrollbar {
@@ -71,6 +74,12 @@
     }
     .animate-pulse-glow {
       animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    /* Math typography helpers */
+    .math-var {
+      font-family: 'Times New Roman', Cambria, 'DejaVu Serif', serif;
+      font-style: italic;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -131,7 +140,7 @@
           地図画像（<code class="text-cyan-400 font-mono">.png</code>, <code class="text-cyan-400 font-mono">.pgm</code>）と ワールドファイル（<code class="text-cyan-400 font-mono">.pgw</code>）をここにドラッグ＆ドロップ
         </div>
         <p class="text-xs text-slate-400">
-          2ファイルを同時にドロップ可能（または個別にクリックして選択）。画像からサイズ $(W, H)$ を、PGWから座標・解像度を自動抽出します。
+          2ファイルを同時にドロップ可能（または個別にクリックして選択）。画像からサイズ (<span class="math-var text-cyan-300">W</span>, <span class="math-var text-cyan-300">H</span>) を、PGWから座標・解像度を自動抽出します。
         </p>
       </div>
     </div>
@@ -174,13 +183,13 @@
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    画像幅 $W$ (pixels) <span class="text-cyan-400 font-mono">*</span>
+                    画像幅 <span class="math-var text-cyan-300 font-bold">W</span> (pixels) <span class="text-cyan-400 font-mono">*</span>
                   </label>
                   <input type="number" id="input-width" min="1" step="1" placeholder="例: 4000" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    画像高さ $H$ (pixels) <span class="text-cyan-400 font-mono">*</span>
+                    画像高さ <span class="math-var text-cyan-300 font-bold">H</span> (pixels) <span class="text-cyan-400 font-mono">*</span>
                   </label>
                   <input type="number" id="input-height" min="1" step="1" placeholder="例: 3000" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
                 </div>
@@ -233,7 +242,7 @@
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 1: $R_x$ <span class="text-[10px] font-normal text-slate-400">(X解像度)</span>
+                    行 1: <span class="math-var text-cyan-300 text-sm">R</span><sub class="text-[10px] text-cyan-300 font-mono font-normal">x</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(X解像度)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m/pixel</span>
                 </div>
@@ -244,7 +253,7 @@
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 4: $R_y$ <span class="text-[10px] font-normal text-slate-400">(Y解像度・通常負値)</span>
+                    行 4: <span class="math-var text-cyan-300 text-sm">R</span><sub class="text-[10px] text-cyan-300 font-mono font-normal">y</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(Y解像度・通常負値)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m/pixel</span>
                 </div>
@@ -255,7 +264,7 @@
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 5: $X_{\text{pgw}}$ <span class="text-[10px] font-normal text-slate-400">(左上中心 X)</span>
+                    行 5: <span class="math-var text-emerald-300 text-sm">X</span><sub class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 X)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m</span>
                 </div>
@@ -266,7 +275,7 @@
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 6: $Y_{\text{pgw}}$ <span class="text-[10px] font-normal text-slate-400">(左上中心 Y)</span>
+                    行 6: <span class="math-var text-emerald-300 text-sm">Y</span><sub class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 Y)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m</span>
                 </div>
@@ -277,7 +286,7 @@
               <div class="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-medium text-slate-400">
-                    行 2: $A$ <span class="text-[10px] text-slate-500">(回転パラメータ・通常 0)</span>
+                    行 2: <span class="math-var text-slate-300">A</span> <span class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
                   </label>
                 </div>
                 <input type="number" step="any" id="param-a" placeholder="0.0" value="0.0" class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
@@ -287,7 +296,7 @@
               <div class="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-medium text-slate-400">
-                    行 3: $B$ <span class="text-[10px] text-slate-500">(回転パラメータ・通常 0)</span>
+                    行 3: <span class="math-var text-slate-300">B</span> <span class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
                   </label>
                 </div>
                 <input type="number" step="any" id="param-b" placeholder="0.0" value="0.0" class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
@@ -440,13 +449,29 @@
               </svg>
               変換式の展開過程
             </div>
-            <div class="flex items-start justify-between border-b border-slate-900 pb-1">
-              <span class="text-slate-400">$origin\_x = X_{\text{pgw}} - \frac{|R_x|}{2}$</span>
-              <span id="step-ox" class="text-cyan-300 font-semibold">-</span>
+            <div class="flex items-center justify-between border-b border-slate-900 pb-1.5">
+              <span class="text-slate-300 font-mono text-[11px] inline-flex items-center gap-1">
+                <span>origin_x =</span>
+                <span class="math-var text-emerald-300 text-xs">X</span><sub class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
+                <span>−</span>
+                <span class="inline-flex flex-col items-center justify-center text-[10px] leading-tight align-middle mx-0.5">
+                  <span class="border-b border-slate-600 px-1 pb-0.5">|<span class="math-var text-cyan-300">R</span><sub class="text-[8px] text-cyan-300">x</sub>|</span>
+                  <span class="pt-0.5 text-[9px]">2</span>
+                </span>
+              </span>
+              <span id="step-ox" class="text-cyan-300 font-semibold text-right">-</span>
             </div>
-            <div class="flex items-start justify-between">
-              <span class="text-slate-400">$origin\_y = Y_{\text{pgw}} - (H - 0.5) \times |R_y|$</span>
-              <span id="step-oy" class="text-cyan-300 font-semibold">-</span>
+            <div class="flex items-center justify-between pt-0.5">
+              <span class="text-slate-300 font-mono text-[11px] inline-flex items-center gap-1">
+                <span>origin_y =</span>
+                <span class="math-var text-emerald-300 text-xs">Y</span><sub class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
+                <span>− (</span>
+                <span class="math-var text-cyan-300">H</span>
+                <span>− 0.5) × |</span>
+                <span class="math-var text-cyan-300">R</span><sub class="text-[8px] text-cyan-300">y</sub>
+                <span>|</span>
+              </span>
+              <span id="step-oy" class="text-cyan-300 font-semibold text-right">-</span>
             </div>
           </div>
 
@@ -549,12 +574,23 @@
             <p>
               一方、ROS / ROS 2 (Nav2) の <code class="text-emerald-400 font-mono">map_server</code> は、画像の<strong class="text-emerald-400">「左下ピクセル」の「左下外側角（境界）」</strong>を原点（origin）として定義します。
             </p>
-            <ul class="list-disc list-inside space-y-1 text-slate-400 pl-1">
+            <ul class="list-disc list-inside space-y-1.5 text-slate-400 pl-1">
               <li>
-                <span class="text-slate-200">X方向の補正</span>: ピクセル中心から外側境界へ半ピクセル左にずらすため、$- \frac{|R_x|}{2}$。
+                <span class="text-slate-200">X方向の補正</span>: ピクセル中心から外側境界へ半ピクセル左にずらすため、
+                <span class="inline-flex items-center gap-0.5 font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                  <span>−</span>
+                  <span class="inline-flex flex-col items-center justify-center text-[10px] leading-none align-middle mx-0.5">
+                    <span class="border-b border-slate-600 px-0.5 pb-0.5">|<span class="math-var">R</span><sub class="text-[8px]">x</sub>|</span>
+                    <span class="pt-0.5 text-[9px]">2</span>
+                  </span>
+                </span>。
               </li>
               <li>
-                <span class="text-slate-200">Y方向の補正</span>: 左上ピクセル中心から左下ピクセル中心まで $(H - 1)$ ピクセル下がり、さらに外側境界へ半ピクセル下がるため、合計で $-(H - 0.5) \times |R_y|$。
+                <span class="text-slate-200">Y方向の補正</span>: 左上ピクセル中心から左下ピクセル中心まで 
+                <span class="font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">(<span class="math-var">H</span> − 1)</span> ピクセル下がり、さらに外側境界へ半ピクセル下がるため、合計で 
+                <span class="font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                  − (<span class="math-var">H</span> − 0.5) × |<span class="math-var">R</span><sub class="text-[8px]">y</sub>|
+                </span>。
               </li>
             </ul>
           </div>
@@ -1032,14 +1068,14 @@
 
         // Warnings for rotation parameters A and B
         if (Math.abs(a) > 1e-9 || Math.abs(b) > 1e-9) {
-          warnings.push(`<strong>注意（回転パラメータ）:</strong> PGWに行2 ($A=${a}$) または 行3 ($B=${b}$) の回転パラメータが含まれています。ROSの標準グリッドマップは軸並行を前提としているため、歪みや回転が正確に表現されない場合があります。`);
+          warnings.push(`<strong>注意（回転パラメータ）:</strong> PGWに行2 (<span class="math-var">A</span> = ${a}) または 行3 (<span class="math-var">B</span> = ${b}) の回転パラメータが含まれています。ROSの標準グリッドマップは軸並行を前提としているため、歪みや回転が正確に表現されない場合があります。`);
         }
 
         // Warning if |Rx| != |Ry|
         const absRx = Math.abs(rx);
         const absRy = Math.abs(ry);
         if (Math.abs(absRx - absRy) > 1e-7) {
-          warnings.push(`<strong>警告（アスペクト比）:</strong> X解像度 (|Rx|=${absRx}) と Y解像度 (|Ry|=${absRy}) が異なります。ROSの標準 map_server は正方形ピクセル（単一の resolution）のみをサポートしています。X解像度 (|Rx|) を採用します。`);
+          warnings.push(`<strong>警告（アスペクト比）:</strong> X解像度 (|<span class="math-var">R</span><sub>x</sub>| = ${absRx}) と Y解像度 (|<span class="math-var">R</span><sub>y</sub>| = ${absRy}) が異なります。ROSの標準 map_server は正方形ピクセル（単一の resolution）のみをサポートしています。X解像度 (|<span class="math-var">R</span><sub>x</sub>|) を採用します。`);
         }
 
         // Render warnings
