@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja" class="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PGW to ROS 2 map.yaml Converter | World File to Nav2 Origin Calculator</title>
-  <meta name="description" content="QGIS等のワールドファイル（.pgw）と地図画像から、ROS / ROS 2 (Nav2) map_server 用の map.yaml を自動計算・生成するWebツール">
+  <meta name="description"
+    content="QGIS等のワールドファイル（.pgw）と地図画像から、ROS / ROS 2 (Nav2) map_server 用の map.yaml を自動計算・生成するWebツール">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -44,7 +46,9 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <!-- KaTeX for elegant math typography -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
@@ -54,27 +58,41 @@
       width: 8px;
       height: 8px;
     }
+
     ::-webkit-scrollbar-track {
       background: #0f172a;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #334155;
       border-radius: 4px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #475569;
     }
+
     .drop-active {
       border-color: #38bdf8 !important;
       background-color: rgba(56, 189, 248, 0.08) !important;
     }
+
     @keyframes pulse-glow {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
+
+      0%,
+      100% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
+
     .animate-pulse-glow {
       animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
+
     /* Math typography helpers */
     .math-var {
       font-family: 'Times New Roman', Cambria, 'DejaVu Serif', serif;
@@ -83,6 +101,7 @@
     }
   </style>
 </head>
+
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-black">
 
   <!-- Toast Notification Container -->
@@ -92,15 +111,20 @@
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div class="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/20 text-white flex items-center justify-center">
+        <div
+          class="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/20 text-white flex items-center justify-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
           </svg>
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            <span>PGW to ROS 2 <code class="text-cyan-400 font-mono text-sm px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700">map.yaml</code></span>
-            <span class="text-xs px-2 py-0.5 rounded-full font-medium bg-cyan-950 border border-cyan-800 text-cyan-300">Nav2 Ready</span>
+            <span>PGW to ROS 2 <code
+                class="text-cyan-400 font-mono text-sm px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700">map.yaml</code></span>
+            <span
+              class="text-xs px-2 py-0.5 rounded-full font-medium bg-cyan-950 border border-cyan-800 text-cyan-300">Nav2
+              Ready</span>
           </h1>
           <p class="text-xs text-slate-400">QGIS World File (.pgw) ⇄ ROS / Nav2 map_server Origin Calculator</p>
         </div>
@@ -108,15 +132,18 @@
 
       <!-- Action buttons in header -->
       <div class="flex items-center gap-2.5">
-        <button id="btn-load-demo" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 transition flex items-center gap-1.5 shadow-sm">
+        <button id="btn-load-demo"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-600 transition flex items-center gap-1.5 shadow-sm">
           <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
           <span>デモデータを読込</span>
         </button>
-        <button id="btn-reset" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-red-950/40 text-slate-400 hover:text-red-400 border border-slate-700 hover:border-red-900 transition flex items-center gap-1.5">
+        <button id="btn-reset"
+          class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-red-950/40 text-slate-400 hover:text-red-400 border border-slate-700 hover:border-red-900 transition flex items-center gap-1.5">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
           <span>リセット</span>
         </button>
@@ -128,19 +155,25 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
     <!-- Global Drag & Drop Banner Area -->
-    <div id="unified-dropzone" class="relative group rounded-2xl border-2 border-dashed border-slate-700 hover:border-cyan-500/80 bg-slate-900/60 hover:bg-slate-900/90 transition-all duration-300 p-6 mb-6 text-center cursor-pointer shadow-lg shadow-black/20">
-      <input type="file" id="unified-file-input" multiple accept=".png,.pgm,.jpg,.jpeg,.bmp,.webp,.pgw,.wld,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+    <div id="unified-dropzone"
+      class="relative group rounded-2xl border-2 border-dashed border-slate-700 hover:border-cyan-500/80 bg-slate-900/60 hover:bg-slate-900/90 transition-all duration-300 p-6 mb-6 text-center cursor-pointer shadow-lg shadow-black/20">
+      <input type="file" id="unified-file-input" multiple accept=".png,.pgm,.jpg,.jpeg,.bmp,.webp,.pgw,.wld,.txt"
+        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
       <div class="flex flex-col items-center justify-center gap-2 pointer-events-none">
-        <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-950 transition-all duration-300">
+        <div
+          class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-950 transition-all duration-300">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
           </svg>
         </div>
         <div class="text-sm font-semibold text-slate-200">
-          地図画像（<code class="text-cyan-400 font-mono">.png</code>, <code class="text-cyan-400 font-mono">.pgm</code>）と ワールドファイル（<code class="text-cyan-400 font-mono">.pgw</code>）をここにドラッグ＆ドロップ
+          地図画像（<code class="text-cyan-400 font-mono">.png</code>, <code class="text-cyan-400 font-mono">.pgm</code>）と
+          ワールドファイル（<code class="text-cyan-400 font-mono">.pgw</code>）をここにドラッグ＆ドロップ
         </div>
         <p class="text-xs text-slate-400">
-          2ファイルを同時にドロップ可能（または個別にクリックして選択）。画像からサイズ (<span class="math-var text-cyan-300">W</span>, <span class="math-var text-cyan-300">H</span>) を、PGWから座標・解像度を自動抽出します。
+          2ファイルを同時にドロップ可能（または個別にクリックして選択）。画像からサイズ (<span class="math-var text-cyan-300">W</span>, <span
+            class="math-var text-cyan-300">H</span>) を、PGWから座標・解像度を自動抽出します。
         </p>
       </div>
     </div>
@@ -161,21 +194,26 @@
               <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
               ステップ 1: 画像ファイル情報
             </h2>
-            <span id="img-status-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">未読み込み</span>
+            <span id="img-status-badge"
+              class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">未読み込み</span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             <!-- Thumbnail / Preview Canvas -->
-            <div class="md:col-span-4 bg-slate-950 rounded-xl border border-slate-800 p-2 flex flex-col items-center justify-center min-h-[140px] text-center relative overflow-hidden group">
+            <div
+              class="md:col-span-4 bg-slate-950 rounded-xl border border-slate-800 p-2 flex flex-col items-center justify-center min-h-[140px] text-center relative overflow-hidden group">
               <img id="img-preview" class="hidden max-h-32 object-contain rounded" alt="Preview">
               <canvas id="canvas-preview" class="hidden max-h-32 object-contain rounded"></canvas>
               <div id="preview-placeholder" class="text-slate-600 flex flex-col items-center gap-1.5 p-3">
                 <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span class="text-[11px]">プレビュー待機中</span>
               </div>
-              <div id="img-meta-tag" class="hidden absolute bottom-1 right-1 bg-black/70 backdrop-blur text-[10px] font-mono text-cyan-300 px-1.5 py-0.5 rounded"></div>
+              <div id="img-meta-tag"
+                class="hidden absolute bottom-1 right-1 bg-black/70 backdrop-blur text-[10px] font-mono text-cyan-300 px-1.5 py-0.5 rounded">
+              </div>
             </div>
 
             <!-- Size Inputs -->
@@ -183,15 +221,19 @@
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    画像幅 <span class="math-var text-cyan-300 font-bold">W</span> (pixels) <span class="text-cyan-400 font-mono">*</span>
+                    画像幅 <span class="math-var text-cyan-300 font-bold">W</span> (pixels) <span
+                      class="text-cyan-400 font-mono">*</span>
                   </label>
-                  <input type="number" id="input-width" min="1" step="1" placeholder="例: 4000" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
+                  <input type="number" id="input-width" min="1" step="1" placeholder="例: 4000"
+                    class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    画像高さ <span class="math-var text-cyan-300 font-bold">H</span> (pixels) <span class="text-cyan-400 font-mono">*</span>
+                    画像高さ <span class="math-var text-cyan-300 font-bold">H</span> (pixels) <span
+                      class="text-cyan-400 font-mono">*</span>
                   </label>
-                  <input type="number" id="input-height" min="1" step="1" placeholder="例: 3000" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
+                  <input type="number" id="input-height" min="1" step="1" placeholder="例: 3000"
+                    class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
                 </div>
               </div>
 
@@ -215,7 +257,8 @@
               ステップ 2: ワールドファイル (PGW) パラメータ
             </h2>
             <div class="flex items-center gap-2">
-              <span id="pgw-status-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">未読み込み</span>
+              <span id="pgw-status-badge"
+                class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">未読み込み</span>
               <label class="cursor-pointer text-xs text-cyan-400 hover:text-cyan-300 underline font-medium">
                 <span>.pgw 選択</span>
                 <input type="file" id="input-pgw-file" accept=".pgw,.wld,.txt" class="hidden">
@@ -229,11 +272,14 @@
             <div>
               <div class="flex items-center justify-between mb-1.5">
                 <span class="text-xs font-medium text-slate-400">PGW 6行テキスト（ペースト入力も可能）:</span>
-                <button type="button" id="btn-toggle-raw-pgw" class="text-[11px] text-slate-500 hover:text-slate-300 transition">
+                <button type="button" id="btn-toggle-raw-pgw"
+                  class="text-[11px] text-slate-500 hover:text-slate-300 transition">
                   エディタを表示 / 非表示
                 </button>
               </div>
-              <textarea id="raw-pgw-textarea" rows="3" placeholder="0.05&#10;0.0&#10;0.0&#10;-0.05&#10;392500.025&#10;3954200.025" class="w-full bg-slate-950 border border-slate-800 focus:border-cyan-500 rounded-lg p-2.5 text-xs font-mono text-slate-300 placeholder-slate-700 focus:outline-none transition resize-y"></textarea>
+              <textarea id="raw-pgw-textarea" rows="3"
+                placeholder="0.05&#10;0.0&#10;0.0&#10;-0.05&#10;392500.025&#10;3954200.025"
+                class="w-full bg-slate-950 border border-slate-800 focus:border-cyan-500 rounded-lg p-2.5 text-xs font-mono text-slate-300 placeholder-slate-700 focus:outline-none transition resize-y"></textarea>
             </div>
 
             <!-- Structured Parameter Grid -->
@@ -242,64 +288,80 @@
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 1: <span class="math-var text-cyan-300 text-sm">R</span><sub class="text-[10px] text-cyan-300 font-mono font-normal">x</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(X解像度)</span>
+                    行 1: <span class="math-var text-cyan-300 text-sm">R</span><sub
+                      class="text-[10px] text-cyan-300 font-mono font-normal">x</sub> <span
+                      class="text-[10px] font-normal text-slate-400 ml-1">(X解像度)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m/pixel</span>
                 </div>
-                <input type="number" step="any" id="param-rx" placeholder="0.05" class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-cyan-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-rx" placeholder="0.05"
+                  class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-cyan-300 focus:outline-none transition">
               </div>
 
               <!-- Line 4: Ry -->
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 4: <span class="math-var text-cyan-300 text-sm">R</span><sub class="text-[10px] text-cyan-300 font-mono font-normal">y</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(Y解像度・通常負値)</span>
+                    行 4: <span class="math-var text-cyan-300 text-sm">R</span><sub
+                      class="text-[10px] text-cyan-300 font-mono font-normal">y</sub> <span
+                      class="text-[10px] font-normal text-slate-400 ml-1">(Y解像度・通常負値)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m/pixel</span>
                 </div>
-                <input type="number" step="any" id="param-ry" placeholder="-0.05" class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-cyan-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-ry" placeholder="-0.05"
+                  class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-cyan-300 focus:outline-none transition">
               </div>
 
               <!-- Line 5: X_pgw -->
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 5: <span class="math-var text-emerald-300 text-sm">X</span><sub class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 X)</span>
+                    行 5: <span class="math-var text-emerald-300 text-sm">X</span><sub
+                      class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span
+                      class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 X)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m</span>
                 </div>
-                <input type="number" step="any" id="param-x" placeholder="392500.025" class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-emerald-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-x" placeholder="392500.025"
+                  class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-emerald-300 focus:outline-none transition">
               </div>
 
               <!-- Line 6: Y_pgw -->
               <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 hover:border-slate-700 transition">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-semibold text-slate-300">
-                    行 6: <span class="math-var text-emerald-300 text-sm">Y</span><sub class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 Y)</span>
+                    行 6: <span class="math-var text-emerald-300 text-sm">Y</span><sub
+                      class="text-[10px] text-emerald-300 font-mono font-normal">pgw</sub> <span
+                      class="text-[10px] font-normal text-slate-400 ml-1">(左上中心 Y)</span>
                   </label>
                   <span class="text-[10px] text-slate-500 font-mono">m</span>
                 </div>
-                <input type="number" step="any" id="param-y" placeholder="3954200.025" class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-emerald-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-y" placeholder="3954200.025"
+                  class="w-full bg-slate-900 border border-slate-700 focus:border-cyan-500 rounded-md px-2.5 py-1.5 text-sm font-mono text-emerald-300 focus:outline-none transition">
               </div>
 
               <!-- Line 2: A (Rotation) -->
               <div class="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-medium text-slate-400">
-                    行 2: <span class="math-var text-slate-300">A</span> <span class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
+                    行 2: <span class="math-var text-slate-300">A</span> <span
+                      class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
                   </label>
                 </div>
-                <input type="number" step="any" id="param-a" placeholder="0.0" value="0.0" class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-a" placeholder="0.0" value="0.0"
+                  class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
               </div>
 
               <!-- Line 3: B (Rotation) -->
               <div class="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800/60">
                 <div class="flex items-center justify-between mb-1">
                   <label class="text-xs font-medium text-slate-400">
-                    行 3: <span class="math-var text-slate-300">B</span> <span class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
+                    行 3: <span class="math-var text-slate-300">B</span> <span
+                      class="text-[10px] text-slate-500 ml-1">(回転パラメータ・通常 0)</span>
                   </label>
                 </div>
-                <input type="number" step="any" id="param-b" placeholder="0.0" value="0.0" class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
+                <input type="number" step="any" id="param-b" placeholder="0.0" value="0.0"
+                  class="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-500 rounded-md px-2 py-1 text-xs font-mono text-slate-300 focus:outline-none transition">
               </div>
             </div>
           </div>
@@ -321,7 +383,8 @@
                 画像ファイル名 (<code class="text-cyan-400 font-mono">image</code>)
               </label>
               <div class="relative">
-                <input type="text" id="opt-image" value="map.png" placeholder="map.png" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
+                <input type="text" id="opt-image" value="map.png" placeholder="map.png"
+                  class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition">
                 <span class="absolute right-3 top-2.5 text-xs text-slate-500 pointer-events-none">YAMLに出力されるパス</span>
               </div>
             </div>
@@ -335,8 +398,10 @@
                 <span id="label-occupied-val" class="text-xs font-mono text-slate-300 font-bold">0.65</span>
               </div>
               <div class="flex items-center gap-2">
-                <input type="range" id="opt-occupied-slider" min="0" max="1" step="0.01" value="0.65" class="w-full accent-cyan-400 cursor-pointer">
-                <input type="number" id="opt-occupied" min="0" max="1" step="0.01" value="0.65" class="w-20 bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded px-2 py-1 text-xs font-mono text-white text-right">
+                <input type="range" id="opt-occupied-slider" min="0" max="1" step="0.01" value="0.65"
+                  class="w-full accent-cyan-400 cursor-pointer">
+                <input type="number" id="opt-occupied" min="0" max="1" step="0.01" value="0.65"
+                  class="w-20 bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded px-2 py-1 text-xs font-mono text-white text-right">
               </div>
             </div>
 
@@ -349,8 +414,10 @@
                 <span id="label-free-val" class="text-xs font-mono text-slate-300 font-bold">0.25</span>
               </div>
               <div class="flex items-center gap-2">
-                <input type="range" id="opt-free-slider" min="0" max="1" step="0.01" value="0.25" class="w-full accent-cyan-400 cursor-pointer">
-                <input type="number" id="opt-free" min="0" max="1" step="0.01" value="0.25" class="w-20 bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded px-2 py-1 text-xs font-mono text-white text-right">
+                <input type="range" id="opt-free-slider" min="0" max="1" step="0.01" value="0.25"
+                  class="w-full accent-cyan-400 cursor-pointer">
+                <input type="number" id="opt-free" min="0" max="1" step="0.01" value="0.25"
+                  class="w-20 bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded px-2 py-1 text-xs font-mono text-white text-right">
               </div>
             </div>
 
@@ -359,7 +426,8 @@
               <label class="block text-xs font-medium text-slate-400 mb-1">
                 白黒反転 (<code class="text-cyan-400 font-mono">negate</code>)
               </label>
-              <select id="opt-negate" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none transition">
+              <select id="opt-negate"
+                class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none transition">
                 <option value="0" selected>0 (標準: 白=フリー, 黒=障害物)</option>
                 <option value="1">1 (反転: 黒=フリー, 白=障害物)</option>
               </select>
@@ -368,9 +436,11 @@
             <!-- mode (Nav2) -->
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1">
-                マップモード (<code class="text-cyan-400 font-mono">mode</code>) <span class="text-[10px] text-slate-500">(Nav2拡張)</span>
+                マップモード (<code class="text-cyan-400 font-mono">mode</code>) <span
+                  class="text-[10px] text-slate-500">(Nav2拡張)</span>
               </label>
-              <select id="opt-mode" class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none transition">
+              <select id="opt-mode"
+                class="w-full bg-slate-950 border border-slate-700 focus:border-cyan-500 rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none transition">
                 <option value="trinary" selected>trinary (標準: 三値表現)</option>
                 <option value="scale">scale (グラデーション確率)</option>
                 <option value="raw">raw (RAW値)</option>
@@ -379,7 +449,8 @@
             </div>
 
             <!-- Precision Format Setting -->
-            <div class="md:col-span-2 pt-1 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div
+              class="md:col-span-2 pt-1 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
               <span class="text-slate-400">数値の出力精度フォーマット:</span>
               <div class="flex items-center gap-2">
                 <label class="inline-flex items-center gap-1.5 cursor-pointer text-slate-300">
@@ -405,17 +476,21 @@
       <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-20">
 
         <!-- Calculated Summary Card -->
-        <section class="bg-gradient-to-b from-slate-900 to-slate-950 rounded-2xl border border-cyan-500/30 p-5 shadow-2xl relative overflow-hidden">
-          <div class="absolute -top-12 -right-12 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <section
+          class="bg-gradient-to-b from-slate-900 to-slate-950 rounded-2xl border border-cyan-500/30 p-5 shadow-2xl relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none">
+          </div>
 
           <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
             <h2 class="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
               <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
               計算結果サマリー
             </h2>
-            <span id="calc-status-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-300 font-semibold flex items-center gap-1">
+            <span id="calc-status-badge"
+              class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-300 font-semibold flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               リアルタイム計算中
             </span>
@@ -433,29 +508,37 @@
             </div>
             <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
               <span class="text-[11px] font-medium text-slate-400 block mb-0.5">origin_x (m)</span>
-              <span id="origin-x-display" class="text-sm font-mono font-bold text-emerald-400 tracking-tight break-all">-</span>
+              <span id="origin-x-display"
+                class="text-sm font-mono font-bold text-emerald-400 tracking-tight break-all">-</span>
             </div>
             <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
               <span class="text-[11px] font-medium text-slate-400 block mb-0.5">origin_y (m)</span>
-              <span id="origin-y-display" class="text-sm font-mono font-bold text-emerald-400 tracking-tight break-all">-</span>
+              <span id="origin-y-display"
+                class="text-sm font-mono font-bold text-emerald-400 tracking-tight break-all">-</span>
             </div>
           </div>
 
           <!-- Formula Step-by-Step Breakdown (Visual proof) -->
-          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1.5 mb-5">
-            <div class="text-slate-500 font-sans font-medium text-[10px] uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div
+            class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1.5 mb-5">
+            <div
+              class="text-slate-500 font-sans font-medium text-[10px] uppercase tracking-wider mb-1 flex items-center gap-1">
               <svg class="w-3 h-3 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               変換式の展開過程
             </div>
             <div class="flex items-center justify-between border-b border-slate-900 pb-1.5">
               <span class="text-slate-300 font-mono text-[11px] inline-flex items-center gap-1">
                 <span>origin_x =</span>
-                <span class="math-var text-emerald-300 text-xs">X</span><sub class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
+                <span class="math-var text-emerald-300 text-xs">X</span><sub
+                  class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
                 <span>−</span>
-                <span class="inline-flex flex-col items-center justify-center text-[10px] leading-tight align-middle mx-0.5">
-                  <span class="border-b border-slate-600 px-1 pb-0.5">|<span class="math-var text-cyan-300">R</span><sub class="text-[8px] text-cyan-300">x</sub>|</span>
+                <span
+                  class="inline-flex flex-col items-center justify-center text-[10px] leading-tight align-middle mx-0.5">
+                  <span class="border-b border-slate-600 px-1 pb-0.5">|<span class="math-var text-cyan-300">R</span><sub
+                      class="text-[8px] text-cyan-300">x</sub>|</span>
                   <span class="pt-0.5 text-[9px]">2</span>
                 </span>
               </span>
@@ -464,7 +547,8 @@
             <div class="flex items-center justify-between pt-0.5">
               <span class="text-slate-300 font-mono text-[11px] inline-flex items-center gap-1">
                 <span>origin_y =</span>
-                <span class="math-var text-emerald-300 text-xs">Y</span><sub class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
+                <span class="math-var text-emerald-300 text-xs">Y</span><sub
+                  class="text-[9px] text-emerald-300 -ml-0.5">pgw</sub>
                 <span>− (</span>
                 <span class="math-var text-cyan-300">H</span>
                 <span>− 0.5) × |</span>
@@ -484,22 +568,28 @@
                 <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
                 <span class="text-xs font-mono font-semibold text-slate-400 ml-2">map.yaml</span>
               </div>
-              <button id="btn-copy-yaml" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow">
+              <button id="btn-copy-yaml"
+                class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow">
                 <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                 </svg>
                 <span id="copy-text">コピー</span>
               </button>
             </div>
 
             <!-- Syntax highlighted display -->
-            <pre id="yaml-preview" class="w-full bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs leading-relaxed text-slate-200 overflow-x-auto shadow-inner selection:bg-cyan-900"></pre>
+            <pre id="yaml-preview"
+              class="w-full bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs leading-relaxed text-slate-200 overflow-x-auto shadow-inner selection:bg-cyan-900"></pre>
           </div>
 
           <!-- Primary Download Button -->
-          <button id="btn-download-yaml" class="mt-4 w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-lg shadow-cyan-500/25 transition-all duration-200 flex items-center justify-center gap-2 group">
-            <svg class="w-4 h-4 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          <button id="btn-download-yaml"
+            class="mt-4 w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-lg shadow-cyan-500/25 transition-all duration-200 flex items-center justify-center gap-2 group">
+            <svg class="w-4 h-4 transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
             <span>map.yaml をダウンロード</span>
           </button>
@@ -507,14 +597,17 @@
 
         <!-- Coordinate System Diagram & Explanation Accordion -->
         <details class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl group transition-all" open>
-          <summary class="font-bold text-sm text-slate-300 flex items-center justify-between cursor-pointer list-none select-none">
+          <summary
+            class="font-bold text-sm text-slate-300 flex items-center justify-between cursor-pointer list-none select-none">
             <span class="flex items-center gap-2">
               <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
               座標系と原点の変換原理の解説
             </span>
-            <svg class="w-4 h-4 text-slate-500 transform transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-slate-500 transform transition-transform group-open:rotate-180" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </summary>
@@ -524,15 +617,17 @@
             <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-center">
               <svg viewBox="0 0 420 230" class="w-full max-w-sm h-auto text-[11px] font-mono">
                 <!-- Outer bounding box of image -->
-                <rect x="50" y="30" width="320" height="150" fill="#0f172a" stroke="#334155" stroke-width="2" stroke-dasharray="4,4" rx="4" />
-                
+                <rect x="50" y="30" width="320" height="150" fill="#0f172a" stroke="#334155" stroke-width="2"
+                  stroke-dasharray="4,4" rx="4" />
+
                 <!-- Grid illustration -->
                 <line x1="90" y1="30" x2="90" y2="180" stroke="#1e293b" stroke-width="1" />
                 <line x1="50" y1="70" x2="370" y2="70" stroke="#1e293b" stroke-width="1" />
                 <line x1="50" y1="140" x2="370" y2="140" stroke="#1e293b" stroke-width="1" />
 
                 <!-- Top Left Pixel (PGW reference) -->
-                <rect x="50" y="30" width="40" height="40" fill="#0369a1" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1.5" />
+                <rect x="50" y="30" width="40" height="40" fill="#0369a1" fill-opacity="0.3" stroke="#38bdf8"
+                  stroke-width="1.5" />
                 <!-- Center point of top left pixel -->
                 <circle cx="70" cy="50" r="4" fill="#38bdf8" />
                 <text x="80" y="46" fill="#38bdf8" font-weight="bold">PGW中心 (X_pgw, Y_pgw)</text>
@@ -543,25 +638,30 @@
                 <text x="52" y="15" fill="#f59e0b" font-size="9">+0.5 R_x</text>
 
                 <!-- Bottom Left Pixel (ROS map_server origin reference) -->
-                <rect x="50" y="140" width="40" height="40" fill="#047857" fill-opacity="0.3" stroke="#10b981" stroke-width="1.5" />
+                <rect x="50" y="140" width="40" height="40" fill="#047857" fill-opacity="0.3" stroke="#10b981"
+                  stroke-width="1.5" />
                 <!-- Bottom-left outer boundary corner -->
                 <circle cx="50" cy="180" r="5" fill="#10b981" />
                 <text x="55" y="196" fill="#10b981" font-weight="bold">ROS origin [x, y, 0]</text>
                 <text x="55" y="210" fill="#94a3b8" font-size="9">左下ピクセル「外側角」</text>
 
                 <!-- Dimensions -->
-                <line x1="385" y1="30" x2="385" y2="180" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-dim)" marker-start="url(#arrow-dim)" />
+                <line x1="385" y1="30" x2="385" y2="180" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-dim)"
+                  marker-start="url(#arrow-dim)" />
                 <text x="390" y="110" fill="#94a3b8" font-size="10">H px</text>
 
-                <line x1="50" y1="220" x2="370" y2="220" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-dim)" marker-start="url(#arrow-dim)" />
+                <line x1="50" y1="220" x2="370" y2="220" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow-dim)"
+                  marker-start="url(#arrow-dim)" />
                 <text x="200" y="216" fill="#94a3b8" font-size="10">W px</text>
 
                 <!-- Markers -->
                 <defs>
-                  <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"
+                    orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
                   </marker>
-                  <marker id="arrow-dim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                  <marker id="arrow-dim" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4"
+                    orient="auto-start-reverse">
                     <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
                   </marker>
                 </defs>
@@ -572,24 +672,30 @@
               QGIS等から出力されるワールドファイル（PGW）は、<strong class="text-cyan-400">「左上ピクセル中心」</strong>の座標を表します。
             </p>
             <p>
-              一方、ROS / ROS 2 (Nav2) の <code class="text-emerald-400 font-mono">map_server</code> は、画像の<strong class="text-emerald-400">「左下ピクセル」の「左下外側角（境界）」</strong>を原点（origin）として定義します。
+              一方、ROS / ROS 2 (Nav2) の <code class="text-emerald-400 font-mono">map_server</code> は、画像の<strong
+                class="text-emerald-400">「左下ピクセル」の「左下外側角（境界）」</strong>を原点（origin）として定義します。
             </p>
             <ul class="list-disc list-inside space-y-1.5 text-slate-400 pl-1">
               <li>
                 <span class="text-slate-200">X方向の補正</span>: ピクセル中心から外側境界へ半ピクセル左にずらすため、
-                <span class="inline-flex items-center gap-0.5 font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                <span
+                  class="inline-flex items-center gap-0.5 font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
                   <span>−</span>
-                  <span class="inline-flex flex-col items-center justify-center text-[10px] leading-none align-middle mx-0.5">
-                    <span class="border-b border-slate-600 px-0.5 pb-0.5">|<span class="math-var">R</span><sub class="text-[8px]">x</sub>|</span>
+                  <span
+                    class="inline-flex flex-col items-center justify-center text-[10px] leading-none align-middle mx-0.5">
+                    <span class="border-b border-slate-600 px-0.5 pb-0.5">|<span class="math-var">R</span><sub
+                        class="text-[8px]">x</sub>|</span>
                     <span class="pt-0.5 text-[9px]">2</span>
                   </span>
                 </span>。
               </li>
               <li>
-                <span class="text-slate-200">Y方向の補正</span>: 左上ピクセル中心から左下ピクセル中心まで 
-                <span class="font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">(<span class="math-var">H</span> − 1)</span> ピクセル下がり、さらに外側境界へ半ピクセル下がるため、合計で 
+                <span class="text-slate-200">Y方向の補正</span>: 左上ピクセル中心から左下ピクセル中心まで
+                <span class="font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">(<span
+                    class="math-var">H</span> − 1)</span> ピクセル下がり、さらに外側境界へ半ピクセル下がるため、合計で
                 <span class="font-mono text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
-                  − (<span class="math-var">H</span> − 0.5) × |<span class="math-var">R</span><sub class="text-[8px]">y</sub>|
+                  − (<span class="math-var">H</span> − 0.5) × |<span class="math-var">R</span><sub
+                    class="text-[8px]">y</sub>|
                 </span>。
               </li>
             </ul>
@@ -608,479 +714,479 @@
 
   <!-- Core JavaScript Logic -->
   <script>
-    (function () {
-      'use strict';
+      (function () {
+        'use strict';
 
-      // --- DOM Elements ---
-      const unifiedDropzone = document.getElementById('unified-dropzone');
-      const unifiedFileInput = document.getElementById('unified-file-input');
-      const inputImageFile = document.getElementById('input-image-file');
-      const inputPgwFile = document.getElementById('input-pgw-file');
+        // --- DOM Elements ---
+        const unifiedDropzone = document.getElementById('unified-dropzone');
+        const unifiedFileInput = document.getElementById('unified-file-input');
+        const inputImageFile = document.getElementById('input-image-file');
+        const inputPgwFile = document.getElementById('input-pgw-file');
 
-      const imgStatusBadge = document.getElementById('img-status-badge');
-      const pgwStatusBadge = document.getElementById('pgw-status-badge');
-      const imgPreview = document.getElementById('img-preview');
-      const canvasPreview = document.getElementById('canvas-preview');
-      const previewPlaceholder = document.getElementById('preview-placeholder');
-      const imgMetaTag = document.getElementById('img-meta-tag');
+        const imgStatusBadge = document.getElementById('img-status-badge');
+        const pgwStatusBadge = document.getElementById('pgw-status-badge');
+        const imgPreview = document.getElementById('img-preview');
+        const canvasPreview = document.getElementById('canvas-preview');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const imgMetaTag = document.getElementById('img-meta-tag');
 
-      const inputWidth = document.getElementById('input-width');
-      const inputHeight = document.getElementById('input-height');
+        const inputWidth = document.getElementById('input-width');
+        const inputHeight = document.getElementById('input-height');
 
-      const rawPgwTextarea = document.getElementById('raw-pgw-textarea');
-      const btnToggleRawPgw = document.getElementById('btn-toggle-raw-pgw');
+        const rawPgwTextarea = document.getElementById('raw-pgw-textarea');
+        const btnToggleRawPgw = document.getElementById('btn-toggle-raw-pgw');
 
-      const paramRx = document.getElementById('param-rx');
-      const paramRy = document.getElementById('param-ry');
-      const paramX = document.getElementById('param-x');
-      const paramY = document.getElementById('param-y');
-      const paramA = document.getElementById('param-a');
-      const paramB = document.getElementById('param-b');
+        const paramRx = document.getElementById('param-rx');
+        const paramRy = document.getElementById('param-ry');
+        const paramX = document.getElementById('param-x');
+        const paramY = document.getElementById('param-y');
+        const paramA = document.getElementById('param-a');
+        const paramB = document.getElementById('param-b');
 
-      const optImage = document.getElementById('opt-image');
-      const optOccupied = document.getElementById('opt-occupied');
-      const optOccupiedSlider = document.getElementById('opt-occupied-slider');
-      const labelOccupiedVal = document.getElementById('label-occupied-val');
-      const optFree = document.getElementById('opt-free');
-      const optFreeSlider = document.getElementById('opt-free-slider');
-      const labelFreeVal = document.getElementById('label-free-val');
-      const optNegate = document.getElementById('opt-negate');
-      const optMode = document.getElementById('opt-mode');
+        const optImage = document.getElementById('opt-image');
+        const optOccupied = document.getElementById('opt-occupied');
+        const optOccupiedSlider = document.getElementById('opt-occupied-slider');
+        const labelOccupiedVal = document.getElementById('label-occupied-val');
+        const optFree = document.getElementById('opt-free');
+        const optFreeSlider = document.getElementById('opt-free-slider');
+        const labelFreeVal = document.getElementById('label-free-val');
+        const optNegate = document.getElementById('opt-negate');
+        const optMode = document.getElementById('opt-mode');
 
-      const resValDisplay = document.getElementById('res-val-display');
-      const originXDisplay = document.getElementById('origin-x-display');
-      const originYDisplay = document.getElementById('origin-y-display');
-      const stepOx = document.getElementById('step-ox');
-      const stepOy = document.getElementById('step-oy');
+        const resValDisplay = document.getElementById('res-val-display');
+        const originXDisplay = document.getElementById('origin-x-display');
+        const originYDisplay = document.getElementById('origin-y-display');
+        const stepOx = document.getElementById('step-ox');
+        const stepOy = document.getElementById('step-oy');
 
-      const yamlPreview = document.getElementById('yaml-preview');
-      const btnCopyYaml = document.getElementById('btn-copy-yaml');
-      const copyText = document.getElementById('copy-text');
-      const btnDownloadYaml = document.getElementById('btn-download-yaml');
-      const btnLoadDemo = document.getElementById('btn-load-demo');
-      const btnReset = document.getElementById('btn-reset');
-      const warningContainer = document.getElementById('warning-container');
+        const yamlPreview = document.getElementById('yaml-preview');
+        const btnCopyYaml = document.getElementById('btn-copy-yaml');
+        const copyText = document.getElementById('copy-text');
+        const btnDownloadYaml = document.getElementById('btn-download-yaml');
+        const btnLoadDemo = document.getElementById('btn-load-demo');
+        const btnReset = document.getElementById('btn-reset');
+        const warningContainer = document.getElementById('warning-container');
 
-      // --- Internal State ---
-      let loadedImageFilename = 'map.png';
-      let currentGeneratedYaml = '';
+        // --- Internal State ---
+        let loadedImageFilename = 'map.png';
+        let currentGeneratedYaml = '';
 
-      // --- Toast Notifications ---
-      function showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        const colorClass = type === 'success' 
-          ? 'bg-emerald-950/95 border-emerald-600 text-emerald-200'
-          : type === 'error'
-          ? 'bg-rose-950/95 border-rose-600 text-rose-200'
-          : 'bg-slate-900/95 border-cyan-600 text-cyan-200';
+        // --- Toast Notifications ---
+        function showToast(message, type = 'info') {
+          const container = document.getElementById('toast-container');
+          const toast = document.createElement('div');
+          const colorClass = type === 'success'
+            ? 'bg-emerald-950/95 border-emerald-600 text-emerald-200'
+            : type === 'error'
+              ? 'bg-rose-950/95 border-rose-600 text-rose-200'
+              : 'bg-slate-900/95 border-cyan-600 text-cyan-200';
 
-        toast.className = `px-4 py-2.5 rounded-xl border shadow-xl text-xs font-medium backdrop-blur transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2 ${colorClass}`;
-        toast.innerHTML = `
+          toast.className = `px-4 py-2.5 rounded-xl border shadow-xl text-xs font-medium backdrop-blur transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2 ${colorClass}`;
+          toast.innerHTML = `
           <span>${message}</span>
         `;
-        container.appendChild(toast);
+          container.appendChild(toast);
 
-        requestAnimationFrame(() => {
-          toast.classList.remove('translate-y-2', 'opacity-0');
-        });
+          requestAnimationFrame(() => {
+            toast.classList.remove('translate-y-2', 'opacity-0');
+          });
 
-        setTimeout(() => {
-          toast.classList.add('opacity-0', 'translate-y-[-8px]');
-          setTimeout(() => toast.remove(), 300);
-        }, 3200);
-      }
+          setTimeout(() => {
+            toast.classList.add('opacity-0', 'translate-y-[-8px]');
+            setTimeout(() => toast.remove(), 300);
+          }, 3200);
+        }
 
-      // --- Number Formatting ---
-      function getPrecisionMode() {
-        const radio = document.querySelector('input[name="opt-precision"]:checked');
-        return radio ? radio.value : 'smart';
-      }
+        // --- Number Formatting ---
+        function getPrecisionMode() {
+          const radio = document.querySelector('input[name="opt-precision"]:checked');
+          return radio ? radio.value : 'smart';
+        }
 
-      function formatNum(val) {
-        if (val === null || val === undefined || isNaN(val)) return '0.0';
-        const mode = getPrecisionMode();
-        if (mode === 'raw') return String(val);
-        if (mode === '6') return Number(val).toFixed(6);
-        
-        // Smart mode: 浮動小数点数誤差（例: 0.05000000000000004）をクリーンにしつつ有効桁を維持
-        // 12桁の精度で指数表記・小数を正規化
-        let fixed = Number(Number(val).toPrecision(12));
-        return String(fixed);
-      }
+        function formatNum(val) {
+          if (val === null || val === undefined || isNaN(val)) return '0.0';
+          const mode = getPrecisionMode();
+          if (mode === 'raw') return String(val);
+          if (mode === '6') return Number(val).toFixed(6);
 
-      // --- PGM Parser (Netpbm P2 / P5) ---
-      function parsePgm(arrayBuffer) {
-        const bytes = new Uint8Array(arrayBuffer);
-        let pos = 0;
+          // Smart mode: 浮動小数点数誤差（例: 0.05000000000000004）をクリーンにしつつ有効桁を維持
+          // 12桁の精度で指数表記・小数を正規化
+          let fixed = Number(Number(val).toPrecision(12));
+          return String(fixed);
+        }
 
-        function nextToken() {
-          while (pos < bytes.length) {
-            const b = bytes[pos];
-            if (b === 0x23) { // '#' comment
-              while (pos < bytes.length && bytes[pos] !== 0x0A && bytes[pos] !== 0x0D) {
+        // --- PGM Parser (Netpbm P2 / P5) ---
+        function parsePgm(arrayBuffer) {
+          const bytes = new Uint8Array(arrayBuffer);
+          let pos = 0;
+
+          function nextToken() {
+            while (pos < bytes.length) {
+              const b = bytes[pos];
+              if (b === 0x23) { // '#' comment
+                while (pos < bytes.length && bytes[pos] !== 0x0A && bytes[pos] !== 0x0D) {
+                  pos++;
+                }
+              } else if (b === 0x20 || b === 0x09 || b === 0x0A || b === 0x0D) { // whitespace
                 pos++;
+              } else {
+                break;
               }
-            } else if (b === 0x20 || b === 0x09 || b === 0x0A || b === 0x0D) { // whitespace
+            }
+            if (pos >= bytes.length) return null;
+            const start = pos;
+            while (pos < bytes.length) {
+              const b = bytes[pos];
+              if (b === 0x20 || b === 0x09 || b === 0x0A || b === 0x0D || b === 0x23) {
+                break;
+              }
               pos++;
-            } else {
-              break;
             }
+            return new TextDecoder().decode(bytes.slice(start, pos));
           }
-          if (pos >= bytes.length) return null;
-          const start = pos;
-          while (pos < bytes.length) {
-            const b = bytes[pos];
-            if (b === 0x20 || b === 0x09 || b === 0x0A || b === 0x0D || b === 0x23) {
-              break;
-            }
+
+          const magic = nextToken();
+          if (magic !== 'P2' && magic !== 'P5') {
+            throw new Error('サポートされていないPGM形式です（Magic number は P2 または P5 である必要があります）');
+          }
+
+          const wStr = nextToken();
+          const hStr = nextToken();
+          const maxValStr = nextToken();
+
+          const width = parseInt(wStr, 10);
+          const height = parseInt(hStr, 10);
+          const maxVal = parseInt(maxValStr, 10);
+
+          if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+            throw new Error('PGMのサイズ情報を読み取れませんでした');
+          }
+
+          // skip 1 whitespace after maxVal for P5 binary stream
+          if (pos < bytes.length && (bytes[pos] === 0x20 || bytes[pos] === 0x0A || bytes[pos] === 0x0D || bytes[pos] === 0x09)) {
             pos++;
           }
-          return new TextDecoder().decode(bytes.slice(start, pos));
+
+          return { magic, width, height, maxVal, dataOffset: pos, bytes };
         }
 
-        const magic = nextToken();
-        if (magic !== 'P2' && magic !== 'P5') {
-          throw new Error('サポートされていないPGM形式です（Magic number は P2 または P5 である必要があります）');
-        }
+        // Render PGM into canvas
+        function renderPgmToCanvas(pgmData) {
+          const { magic, width, height, maxVal, dataOffset, bytes } = pgmData;
+          const canvas = canvasPreview;
+          const ctx = canvas.getContext('2d');
 
-        const wStr = nextToken();
-        const hStr = nextToken();
-        const maxValStr = nextToken();
-
-        const width = parseInt(wStr, 10);
-        const height = parseInt(hStr, 10);
-        const maxVal = parseInt(maxValStr, 10);
-
-        if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
-          throw new Error('PGMのサイズ情報を読み取れませんでした');
-        }
-
-        // skip 1 whitespace after maxVal for P5 binary stream
-        if (pos < bytes.length && (bytes[pos] === 0x20 || bytes[pos] === 0x0A || bytes[pos] === 0x0D || bytes[pos] === 0x09)) {
-          pos++;
-        }
-
-        return { magic, width, height, maxVal, dataOffset: pos, bytes };
-      }
-
-      // Render PGM into canvas
-      function renderPgmToCanvas(pgmData) {
-        const { magic, width, height, maxVal, dataOffset, bytes } = pgmData;
-        const canvas = canvasPreview;
-        const ctx = canvas.getContext('2d');
-
-        // Limit canvas rendering size for huge maps to prevent memory lock
-        const maxDim = 800;
-        let scale = 1;
-        if (width > maxDim || height > maxDim) {
-          scale = Math.min(maxDim / width, maxDim / height);
-        }
-
-        canvas.width = Math.round(width * scale);
-        canvas.height = Math.round(height * scale);
-
-        // Simple preview sampling
-        const imgData = ctx.createImageData(canvas.width, canvas.height);
-        const d = imgData.data;
-
-        if (magic === 'P5') {
-          for (let cy = 0; cy < canvas.height; cy++) {
-            const srcY = Math.floor(cy / scale);
-            for (let cx = 0; cx < canvas.width; cx++) {
-              const srcX = Math.floor(cx / scale);
-              const srcIdx = dataOffset + (srcY * width + srcX);
-              const val = srcIdx < bytes.length ? bytes[srcIdx] : 0;
-              const normalized = maxVal === 255 ? val : Math.floor((val / maxVal) * 255);
-              const dstIdx = (cy * canvas.width + cx) * 4;
-              d[dstIdx] = normalized;
-              d[dstIdx + 1] = normalized;
-              d[dstIdx + 2] = normalized;
-              d[dstIdx + 3] = 255;
-            }
+          // Limit canvas rendering size for huge maps to prevent memory lock
+          const maxDim = 800;
+          let scale = 1;
+          if (width > maxDim || height > maxDim) {
+            scale = Math.min(maxDim / width, maxDim / height);
           }
-          ctx.putImageData(imgData, 0, 0);
-        } else {
-          // Fallback text drawing for P2
-          ctx.fillStyle = '#1e293b';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = '#38bdf8';
-          ctx.font = '12px sans-serif';
-          ctx.fillText(`PGM P2 (${width}×${height})`, 10, 20);
+
+          canvas.width = Math.round(width * scale);
+          canvas.height = Math.round(height * scale);
+
+          // Simple preview sampling
+          const imgData = ctx.createImageData(canvas.width, canvas.height);
+          const d = imgData.data;
+
+          if (magic === 'P5') {
+            for (let cy = 0; cy < canvas.height; cy++) {
+              const srcY = Math.floor(cy / scale);
+              for (let cx = 0; cx < canvas.width; cx++) {
+                const srcX = Math.floor(cx / scale);
+                const srcIdx = dataOffset + (srcY * width + srcX);
+                const val = srcIdx < bytes.length ? bytes[srcIdx] : 0;
+                const normalized = maxVal === 255 ? val : Math.floor((val / maxVal) * 255);
+                const dstIdx = (cy * canvas.width + cx) * 4;
+                d[dstIdx] = normalized;
+                d[dstIdx + 1] = normalized;
+                d[dstIdx + 2] = normalized;
+                d[dstIdx + 3] = 255;
+              }
+            }
+            ctx.putImageData(imgData, 0, 0);
+          } else {
+            // Fallback text drawing for P2
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(`PGM P2 (${width}×${height})`, 10, 20);
+          }
+
+          canvasPreview.classList.remove('hidden');
+          imgPreview.classList.add('hidden');
+          previewPlaceholder.classList.add('hidden');
         }
 
-        canvasPreview.classList.remove('hidden');
-        imgPreview.classList.add('hidden');
-        previewPlaceholder.classList.add('hidden');
-      }
+        // --- Handle Image Loading ---
+        function handleImageFile(file) {
+          const ext = file.name.split('.').pop().toLowerCase();
+          loadedImageFilename = file.name;
+          optImage.value = file.name;
 
-      // --- Handle Image Loading ---
-      function handleImageFile(file) {
-        const ext = file.name.split('.').pop().toLowerCase();
-        loadedImageFilename = file.name;
-        optImage.value = file.name;
+          if (ext === 'pgm') {
+            // Handle PGM file via ArrayBuffer parser
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              try {
+                const pgm = parsePgm(e.target.result);
+                inputWidth.value = pgm.width;
+                inputHeight.value = pgm.height;
+                imgStatusBadge.textContent = `${file.name} (${pgm.width}×${pgm.height})`;
+                imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
+                imgMetaTag.textContent = `${pgm.magic} ${pgm.width}×${pgm.height}`;
+                imgMetaTag.classList.remove('hidden');
+                renderPgmToCanvas(pgm);
+                showToast(`PGMファイルを読み込みました: ${file.name} (${pgm.width}×${pgm.height}px)`, 'success');
+                calculateAndRender();
+              } catch (err) {
+                console.error(err);
+                showToast(`PGMの解析に失敗しました: ${err.message}`, 'error');
+              }
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            // Standard browser image (PNG, JPG, BMP, WEBP, etc.)
+            const objectUrl = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = function () {
+              inputWidth.value = img.naturalWidth;
+              inputHeight.value = img.naturalHeight;
+              imgStatusBadge.textContent = `${file.name} (${img.naturalWidth}×${img.naturalHeight})`;
+              imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
 
-        if (ext === 'pgm') {
-          // Handle PGM file via ArrayBuffer parser
+              imgPreview.src = objectUrl;
+              imgPreview.classList.remove('hidden');
+              canvasPreview.classList.add('hidden');
+              previewPlaceholder.classList.add('hidden');
+              imgMetaTag.textContent = `${ext.toUpperCase()} ${img.naturalWidth}×${img.naturalHeight}`;
+              imgMetaTag.classList.remove('hidden');
+
+              showToast(`画像ファイルを読み込みました: ${file.name} (${img.naturalWidth}×${img.naturalHeight}px)`, 'success');
+              calculateAndRender();
+            };
+            img.onerror = function () {
+              showToast('画像の読み込みに失敗しました。ファイル形式を確認してください。', 'error');
+            };
+            img.src = objectUrl;
+          }
+        }
+
+        // --- Handle PGW Loading ---
+        function parsePgwTextContent(text, sourceName = 'PGW') {
+          const lines = text.split(/\r?\n/)
+            .map(l => l.trim())
+            .filter(l => l.length > 0 && !l.startsWith('#'));
+
+          if (lines.length < 6) {
+            throw new Error('PGWファイルには少なくとも6行の数値が必要です。');
+          }
+
+          const rx = parseFloat(lines[0]);
+          const a = parseFloat(lines[1]);
+          const b = parseFloat(lines[2]);
+          const ry = parseFloat(lines[3]);
+          const x = parseFloat(lines[4]);
+          const y = parseFloat(lines[5]);
+
+          if ([rx, a, b, ry, x, y].some(v => isNaN(v))) {
+            throw new Error('PGWのパラメータに有効な数値ではない値が含まれています。');
+          }
+
+          paramRx.value = rx;
+          paramA.value = a;
+          paramB.value = b;
+          paramRy.value = ry;
+          paramX.value = x;
+          paramY.value = y;
+          rawPgwTextarea.value = lines.slice(0, 6).join('\n');
+
+          pgwStatusBadge.textContent = `${sourceName} 読込完了`;
+          pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800 font-mono';
+
+          showToast(`${sourceName} を正常にパースしました`, 'success');
+          calculateAndRender();
+        }
+
+        function handlePgwFile(file) {
           const reader = new FileReader();
           reader.onload = function (e) {
             try {
-              const pgm = parsePgm(e.target.result);
-              inputWidth.value = pgm.width;
-              inputHeight.value = pgm.height;
-              imgStatusBadge.textContent = `${file.name} (${pgm.width}×${pgm.height})`;
-              imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
-              imgMetaTag.textContent = `${pgm.magic} ${pgm.width}×${pgm.height}`;
-              imgMetaTag.classList.remove('hidden');
-              renderPgmToCanvas(pgm);
-              showToast(`PGMファイルを読み込みました: ${file.name} (${pgm.width}×${pgm.height}px)`, 'success');
-              calculateAndRender();
+              parsePgwTextContent(e.target.result, file.name);
             } catch (err) {
-              console.error(err);
-              showToast(`PGMの解析に失敗しました: ${err.message}`, 'error');
+              showToast(err.message, 'error');
             }
           };
-          reader.readAsArrayBuffer(file);
-        } else {
-          // Standard browser image (PNG, JPG, BMP, WEBP, etc.)
-          const objectUrl = URL.createObjectURL(file);
-          const img = new Image();
-          img.onload = function () {
-            inputWidth.value = img.naturalWidth;
-            inputHeight.value = img.naturalHeight;
-            imgStatusBadge.textContent = `${file.name} (${img.naturalWidth}×${img.naturalHeight})`;
-            imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
-
-            imgPreview.src = objectUrl;
-            imgPreview.classList.remove('hidden');
-            canvasPreview.classList.add('hidden');
-            previewPlaceholder.classList.add('hidden');
-            imgMetaTag.textContent = `${ext.toUpperCase()} ${img.naturalWidth}×${img.naturalHeight}`;
-            imgMetaTag.classList.remove('hidden');
-
-            showToast(`画像ファイルを読み込みました: ${file.name} (${img.naturalWidth}×${img.naturalHeight}px)`, 'success');
-            calculateAndRender();
-          };
-          img.onerror = function () {
-            showToast('画像の読み込みに失敗しました。ファイル形式を確認してください。', 'error');
-          };
-          img.src = objectUrl;
-        }
-      }
-
-      // --- Handle PGW Loading ---
-      function parsePgwTextContent(text, sourceName = 'PGW') {
-        const lines = text.split(/\r?\n/)
-          .map(l => l.trim())
-          .filter(l => l.length > 0 && !l.startsWith('#'));
-
-        if (lines.length < 6) {
-          throw new Error('PGWファイルには少なくとも6行の数値が必要です。');
+          reader.readAsText(file);
         }
 
-        const rx = parseFloat(lines[0]);
-        const a = parseFloat(lines[1]);
-        const b = parseFloat(lines[2]);
-        const ry = parseFloat(lines[3]);
-        const x = parseFloat(lines[4]);
-        const y = parseFloat(lines[5]);
+        // --- File Router for Drag & Drop ---
+        function routeFiles(fileList) {
+          const files = Array.from(fileList);
+          let imgFound = false;
+          let pgwFound = false;
 
-        if ([rx, a, b, ry, x, y].some(v => isNaN(v))) {
-          throw new Error('PGWのパラメータに有効な数値ではない値が含まれています。');
-        }
+          files.forEach(file => {
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (['png', 'pgm', 'jpg', 'jpeg', 'bmp', 'webp'].includes(ext)) {
+              handleImageFile(file);
+              imgFound = true;
+            } else if (['pgw', 'wld', 'tfw', 'jgw'].includes(ext)) {
+              handlePgwFile(file);
+              pgwFound = true;
+            } else if (ext === 'txt') {
+              // Text file could be PGW
+              handlePgwFile(file);
+              pgwFound = true;
+            }
+          });
 
-        paramRx.value = rx;
-        paramA.value = a;
-        paramB.value = b;
-        paramRy.value = ry;
-        paramX.value = x;
-        paramY.value = y;
-        rawPgwTextarea.value = lines.slice(0, 6).join('\n');
-
-        pgwStatusBadge.textContent = `${sourceName} 読込完了`;
-        pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800 font-mono';
-
-        showToast(`${sourceName} を正常にパースしました`, 'success');
-        calculateAndRender();
-      }
-
-      function handlePgwFile(file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          try {
-            parsePgwTextContent(e.target.result, file.name);
-          } catch (err) {
-            showToast(err.message, 'error');
+          if (!imgFound && !pgwFound && files.length > 0) {
+            showToast('サポートされていないファイル形式です (.png, .pgm, .pgw 等をドロップしてください)', 'error');
           }
-        };
-        reader.readAsText(file);
-      }
+        }
 
-      // --- File Router for Drag & Drop ---
-      function routeFiles(fileList) {
-        const files = Array.from(fileList);
-        let imgFound = false;
-        let pgwFound = false;
+        // --- Setup Drag and Drop Listeners ---
+        ['dragenter', 'dragover'].forEach(eventName => {
+          unifiedDropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            unifiedDropzone.classList.add('drop-active');
+          });
+        });
 
-        files.forEach(file => {
-          const ext = file.name.split('.').pop().toLowerCase();
-          if (['png', 'pgm', 'jpg', 'jpeg', 'bmp', 'webp'].includes(ext)) {
-            handleImageFile(file);
-            imgFound = true;
-          } else if (['pgw', 'wld', 'tfw', 'jgw'].includes(ext)) {
-            handlePgwFile(file);
-            pgwFound = true;
-          } else if (ext === 'txt') {
-            // Text file could be PGW
-            handlePgwFile(file);
-            pgwFound = true;
+        ['dragleave', 'drop'].forEach(eventName => {
+          unifiedDropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            unifiedDropzone.classList.remove('drop-active');
+          });
+        });
+
+        unifiedDropzone.addEventListener('drop', (e) => {
+          if (e.dataTransfer && e.dataTransfer.files) {
+            routeFiles(e.dataTransfer.files);
           }
         });
 
-        if (!imgFound && !pgwFound && files.length > 0) {
-          showToast('サポートされていないファイル形式です (.png, .pgm, .pgw 等をドロップしてください)', 'error');
-        }
-      }
-
-      // --- Setup Drag and Drop Listeners ---
-      ['dragenter', 'dragover'].forEach(eventName => {
-        unifiedDropzone.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          unifiedDropzone.classList.add('drop-active');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        unifiedDropzone.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          unifiedDropzone.classList.remove('drop-active');
-        });
-      });
-
-      unifiedDropzone.addEventListener('drop', (e) => {
-        if (e.dataTransfer && e.dataTransfer.files) {
-          routeFiles(e.dataTransfer.files);
-        }
-      });
-
-      unifiedFileInput.addEventListener('change', (e) => {
-        if (e.target.files) {
-          routeFiles(e.target.files);
-        }
-      });
-
-      inputImageFile.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleImageFile(e.target.files[0]);
-        }
-      });
-
-      inputPgwFile.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handlePgwFile(e.target.files[0]);
-        }
-      });
-
-      // Raw PGW Textarea change
-      rawPgwTextarea.addEventListener('input', () => {
-        const text = rawPgwTextarea.value.trim();
-        if (text) {
-          try {
-            parsePgwTextContent(text, 'テキスト');
-          } catch (e) {
-            // silent during incomplete typing
+        unifiedFileInput.addEventListener('change', (e) => {
+          if (e.target.files) {
+            routeFiles(e.target.files);
           }
-        }
-      });
+        });
 
-      btnToggleRawPgw.addEventListener('click', () => {
-        rawPgwTextarea.classList.toggle('hidden');
-      });
+        inputImageFile.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            handleImageFile(e.target.files[0]);
+          }
+        });
 
-      // --- Sliders and Number Input Sync ---
-      optOccupiedSlider.addEventListener('input', (e) => {
-        optOccupied.value = e.target.value;
-        labelOccupiedVal.textContent = e.target.value;
-        calculateAndRender();
-      });
-      optOccupied.addEventListener('input', (e) => {
-        optOccupiedSlider.value = e.target.value;
-        labelOccupiedVal.textContent = e.target.value;
-        calculateAndRender();
-      });
+        inputPgwFile.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            handlePgwFile(e.target.files[0]);
+          }
+        });
 
-      optFreeSlider.addEventListener('input', (e) => {
-        optFree.value = e.target.value;
-        labelFreeVal.textContent = e.target.value;
-        calculateAndRender();
-      });
-      optFree.addEventListener('input', (e) => {
-        optFreeSlider.value = e.target.value;
-        labelFreeVal.textContent = e.target.value;
-        calculateAndRender();
-      });
+        // Raw PGW Textarea change
+        rawPgwTextarea.addEventListener('input', () => {
+          const text = rawPgwTextarea.value.trim();
+          if (text) {
+            try {
+              parsePgwTextContent(text, 'テキスト');
+            } catch (e) {
+              // silent during incomplete typing
+            }
+          }
+        });
 
-      // All form inputs recalculation listener
-      [
-        inputWidth, inputHeight,
-        paramRx, paramRy, paramX, paramY, paramA, paramB,
-        optImage, optNegate, optMode
-      ].forEach(el => {
-        el.addEventListener('input', calculateAndRender);
-      });
+        btnToggleRawPgw.addEventListener('click', () => {
+          rawPgwTextarea.classList.toggle('hidden');
+        });
 
-      document.querySelectorAll('input[name="opt-precision"]').forEach(radio => {
-        radio.addEventListener('change', calculateAndRender);
-      });
+        // --- Sliders and Number Input Sync ---
+        optOccupiedSlider.addEventListener('input', (e) => {
+          optOccupied.value = e.target.value;
+          labelOccupiedVal.textContent = e.target.value;
+          calculateAndRender();
+        });
+        optOccupied.addEventListener('input', (e) => {
+          optOccupiedSlider.value = e.target.value;
+          labelOccupiedVal.textContent = e.target.value;
+          calculateAndRender();
+        });
 
-      // --- Core Calculation Logic ---
-      function calculateAndRender() {
-        const W = parseFloat(inputWidth.value);
-        const H = parseFloat(inputHeight.value);
+        optFreeSlider.addEventListener('input', (e) => {
+          optFree.value = e.target.value;
+          labelFreeVal.textContent = e.target.value;
+          calculateAndRender();
+        });
+        optFree.addEventListener('input', (e) => {
+          optFreeSlider.value = e.target.value;
+          labelFreeVal.textContent = e.target.value;
+          calculateAndRender();
+        });
 
-        const rx = parseFloat(paramRx.value);
-        const ry = parseFloat(paramRy.value);
-        const x_pgw = parseFloat(paramX.value);
-        const y_pgw = parseFloat(paramY.value);
-        const a = parseFloat(paramA.value) || 0;
-        const b = parseFloat(paramB.value) || 0;
+        // All form inputs recalculation listener
+        [
+          inputWidth, inputHeight,
+          paramRx, paramRy, paramX, paramY, paramA, paramB,
+          optImage, optNegate, optMode
+        ].forEach(el => {
+          el.addEventListener('input', calculateAndRender);
+        });
 
-        const warnings = [];
+        document.querySelectorAll('input[name="opt-precision"]').forEach(radio => {
+          radio.addEventListener('change', calculateAndRender);
+        });
 
-        // Check if basic inputs are available
-        const hasSize = !isNaN(W) && !isNaN(H) && W > 0 && H > 0;
-        const hasPgw = !isNaN(rx) && !isNaN(ry) && !isNaN(x_pgw) && !isNaN(y_pgw);
+        // --- Core Calculation Logic ---
+        function calculateAndRender() {
+          const W = parseFloat(inputWidth.value);
+          const H = parseFloat(inputHeight.value);
 
-        if (!hasSize || !hasPgw) {
-          resValDisplay.textContent = '-';
-          originXDisplay.textContent = '-';
-          originYDisplay.textContent = '-';
-          stepOx.textContent = 'パラメータ待機中';
-          stepOy.textContent = 'パラメータ待機中';
-          yamlPreview.textContent = '# 地図画像とPGWパラメータを入力すると、\n# ここに map.yaml がリアルタイム生成されます。';
-          currentGeneratedYaml = '';
-          warningContainer.innerHTML = '';
-          warningContainer.classList.add('hidden');
-          return;
-        }
+          const rx = parseFloat(paramRx.value);
+          const ry = parseFloat(paramRy.value);
+          const x_pgw = parseFloat(paramX.value);
+          const y_pgw = parseFloat(paramY.value);
+          const a = parseFloat(paramA.value) || 0;
+          const b = parseFloat(paramB.value) || 0;
 
-        // Warnings for rotation parameters A and B
-        if (Math.abs(a) > 1e-9 || Math.abs(b) > 1e-9) {
-          warnings.push(`<strong>注意（回転パラメータ）:</strong> PGWに行2 (<span class="math-var">A</span> = ${a}) または 行3 (<span class="math-var">B</span> = ${b}) の回転パラメータが含まれています。ROSの標準グリッドマップは軸並行を前提としているため、歪みや回転が正確に表現されない場合があります。`);
-        }
+          const warnings = [];
 
-        // Warning if |Rx| != |Ry|
-        const absRx = Math.abs(rx);
-        const absRy = Math.abs(ry);
-        if (Math.abs(absRx - absRy) > 1e-7) {
-          warnings.push(`<strong>警告（アスペクト比）:</strong> X解像度 (|<span class="math-var">R</span><sub>x</sub>| = ${absRx}) と Y解像度 (|<span class="math-var">R</span><sub>y</sub>| = ${absRy}) が異なります。ROSの標準 map_server は正方形ピクセル（単一の resolution）のみをサポートしています。X解像度 (|<span class="math-var">R</span><sub>x</sub>|) を採用します。`);
-        }
+          // Check if basic inputs are available
+          const hasSize = !isNaN(W) && !isNaN(H) && W > 0 && H > 0;
+          const hasPgw = !isNaN(rx) && !isNaN(ry) && !isNaN(x_pgw) && !isNaN(y_pgw);
 
-        // Render warnings
-        if (warnings.length > 0) {
-          warningContainer.innerHTML = warnings.map(w => `
+          if (!hasSize || !hasPgw) {
+            resValDisplay.textContent = '-';
+            originXDisplay.textContent = '-';
+            originYDisplay.textContent = '-';
+            stepOx.textContent = 'パラメータ待機中';
+            stepOy.textContent = 'パラメータ待機中';
+            yamlPreview.textContent = '# 地図画像とPGWパラメータを入力すると、\n# ここに map.yaml がリアルタイム生成されます。';
+            currentGeneratedYaml = '';
+            warningContainer.innerHTML = '';
+            warningContainer.classList.add('hidden');
+            return;
+          }
+
+          // Warnings for rotation parameters A and B
+          if (Math.abs(a) > 1e-9 || Math.abs(b) > 1e-9) {
+            warnings.push(`<strong>注意（回転パラメータ）:</strong> PGWに行2 (<span class="math-var">A</span> = ${a}) または 行3 (<span class="math-var">B</span> = ${b}) の回転パラメータが含まれています。ROSの標準グリッドマップは軸並行を前提としているため、歪みや回転が正確に表現されない場合があります。`);
+          }
+
+          // Warning if |Rx| != |Ry|
+          const absRx = Math.abs(rx);
+          const absRy = Math.abs(ry);
+          if (Math.abs(absRx - absRy) > 1e-7) {
+            warnings.push(`<strong>警告（アスペクト比）:</strong> X解像度 (|<span class="math-var">R</span><sub>x</sub>| = ${absRx}) と Y解像度 (|<span class="math-var">R</span><sub>y</sub>| = ${absRy}) が異なります。ROSの標準 map_server は正方形ピクセル（単一の resolution）のみをサポートしています。X解像度 (|<span class="math-var">R</span><sub>x</sub>|) を採用します。`);
+          }
+
+          // Render warnings
+          if (warnings.length > 0) {
+            warningContainer.innerHTML = warnings.map(w => `
             <div class="p-3 bg-amber-950/60 border border-amber-800 rounded-xl text-amber-200 text-xs flex items-start gap-2 shadow-sm">
               <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -1088,213 +1194,214 @@
               <div>${w}</div>
             </div>
           `).join('');
-          warningContainer.classList.remove('hidden');
-        } else {
-          warningContainer.innerHTML = '';
-          warningContainer.classList.add('hidden');
+            warningContainer.classList.remove('hidden');
+          } else {
+            warningContainer.innerHTML = '';
+            warningContainer.classList.add('hidden');
+          }
+
+          // --- SPEC CALCULATION ---
+          // resolution = |Rx|
+          const resolution = absRx;
+
+          // origin_x = X_pgw - (|Rx| / 2)
+          const origin_x = x_pgw - (absRx / 2);
+
+          // origin_y = Y_pgw - (H - 0.5) * |Ry|
+          const origin_y = y_pgw - (H - 0.5) * absRy;
+
+          const origin_yaw = 0.0;
+
+          // Displays
+          resValDisplay.textContent = formatNum(resolution);
+          originXDisplay.textContent = formatNum(origin_x);
+          originYDisplay.textContent = formatNum(origin_y);
+
+          // Step breakdowns
+          stepOx.textContent = `${formatNum(x_pgw)} - (${formatNum(absRx)} / 2) = ${formatNum(origin_x)}`;
+          stepOy.textContent = `${formatNum(y_pgw)} - (${H} - 0.5) × ${formatNum(absRy)} = ${formatNum(origin_y)}`;
+
+          // YAML Generation
+          const imageName = (optImage.value || 'map.png').trim();
+          const negateVal = parseInt(optNegate.value, 10) || 0;
+          const occupiedThreshVal = parseFloat(optOccupied.value) || 0.65;
+          const freeThreshVal = parseFloat(optFree.value) || 0.25;
+          const modeVal = optMode.value;
+
+          let yaml = `image: ${imageName}\n`;
+          if (modeVal && modeVal !== 'none') {
+            yaml += `mode: ${modeVal}\n`;
+          }
+          yaml += `resolution: ${formatNum(resolution)}\n`;
+          yaml += `origin: [${formatNum(origin_x)}, ${formatNum(origin_y)}, ${origin_yaw.toFixed(1)}]\n`;
+          yaml += `negate: ${negateVal}\n`;
+          yaml += `occupied_thresh: ${occupiedThreshVal}\n`;
+          yaml += `free_thresh: ${freeThreshVal}\n`;
+
+          currentGeneratedYaml = yaml;
+
+          // Syntax highlighted presentation
+          const highlighted = yaml
+            .replace(/(image|mode|resolution|origin|negate|occupied_thresh|free_thresh):/g, '<span class="text-cyan-400 font-semibold">$1:</span>')
+            .replace(/(\[.*?\])/g, '<span class="text-emerald-300 font-bold">$1</span>')
+            .replace(/(: )([0-9.-]+)/g, '$1<span class="text-amber-300">$2</span>')
+            .replace(/(: )([a-zA-Z0-9_.-]+)/g, '$1<span class="text-slate-100">$2</span>');
+
+          yamlPreview.innerHTML = highlighted;
         }
 
-        // --- SPEC CALCULATION ---
-        // resolution = |Rx|
-        const resolution = absRx;
+        // --- Copy YAML ---
+        btnCopyYaml.addEventListener('click', () => {
+          if (!currentGeneratedYaml) {
+            showToast('コピーするYAMLがまだ生成されていません', 'error');
+            return;
+          }
 
-        // origin_x = X_pgw - (|Rx| / 2)
-        const origin_x = x_pgw - (absRx / 2);
+          navigator.clipboard.writeText(currentGeneratedYaml).then(() => {
+            copyText.textContent = 'コピー完了!';
+            btnCopyYaml.classList.add('bg-cyan-950', 'text-cyan-300', 'border-cyan-700');
+            showToast('map.yaml をクリップボードにコピーしました', 'success');
 
-        // origin_y = Y_pgw - (H - 0.5) * |Ry|
-        const origin_y = y_pgw - (H - 0.5) * absRy;
-
-        const origin_yaw = 0.0;
-
-        // Displays
-        resValDisplay.textContent = formatNum(resolution);
-        originXDisplay.textContent = formatNum(origin_x);
-        originYDisplay.textContent = formatNum(origin_y);
-
-        // Step breakdowns
-        stepOx.textContent = `${formatNum(x_pgw)} - (${formatNum(absRx)} / 2) = ${formatNum(origin_x)}`;
-        stepOy.textContent = `${formatNum(y_pgw)} - (${H} - 0.5) × ${formatNum(absRy)} = ${formatNum(origin_y)}`;
-
-        // YAML Generation
-        const imageName = (optImage.value || 'map.png').trim();
-        const negateVal = parseInt(optNegate.value, 10) || 0;
-        const occupiedThreshVal = parseFloat(optOccupied.value) || 0.65;
-        const freeThreshVal = parseFloat(optFree.value) || 0.25;
-        const modeVal = optMode.value;
-
-        let yaml = `image: ${imageName}\n`;
-        if (modeVal && modeVal !== 'none') {
-          yaml += `mode: ${modeVal}\n`;
-        }
-        yaml += `resolution: ${formatNum(resolution)}\n`;
-        yaml += `origin: [${formatNum(origin_x)}, ${formatNum(origin_y)}, ${origin_yaw.toFixed(1)}]\n`;
-        yaml += `negate: ${negateVal}\n`;
-        yaml += `occupied_thresh: ${occupiedThreshVal}\n`;
-        yaml += `free_thresh: ${freeThreshVal}\n`;
-
-        currentGeneratedYaml = yaml;
-
-        // Syntax highlighted presentation
-        const highlighted = yaml
-          .replace(/(image|mode|resolution|origin|negate|occupied_thresh|free_thresh):/g, '<span class="text-cyan-400 font-semibold">$1:</span>')
-          .replace(/(\[.*?\])/g, '<span class="text-emerald-300 font-bold">$1</span>')
-          .replace(/(: )([0-9.-]+)/g, '$1<span class="text-amber-300">$2</span>')
-          .replace(/(: )([a-zA-Z0-9_.-]+)/g, '$1<span class="text-slate-100">$2</span>');
-
-        yamlPreview.innerHTML = highlighted;
-      }
-
-      // --- Copy YAML ---
-      btnCopyYaml.addEventListener('click', () => {
-        if (!currentGeneratedYaml) {
-          showToast('コピーするYAMLがまだ生成されていません', 'error');
-          return;
-        }
-
-        navigator.clipboard.writeText(currentGeneratedYaml).then(() => {
-          copyText.textContent = 'コピー完了!';
-          btnCopyYaml.classList.add('bg-cyan-950', 'text-cyan-300', 'border-cyan-700');
-          showToast('map.yaml をクリップボードにコピーしました', 'success');
-
-          setTimeout(() => {
-            copyText.textContent = 'コピー';
-            btnCopyYaml.classList.remove('bg-cyan-950', 'text-cyan-300', 'border-cyan-700');
-          }, 2000);
-        }).catch(err => {
-          // Fallback
-          const ta = document.createElement('textarea');
-          ta.value = currentGeneratedYaml;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          showToast('クリップボードにコピーしました', 'success');
+            setTimeout(() => {
+              copyText.textContent = 'コピー';
+              btnCopyYaml.classList.remove('bg-cyan-950', 'text-cyan-300', 'border-cyan-700');
+            }, 2000);
+          }).catch(err => {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = currentGeneratedYaml;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('クリップボードにコピーしました', 'success');
+          });
         });
-      });
 
-      // --- Download YAML ---
-      btnDownloadYaml.addEventListener('click', () => {
-        if (!currentGeneratedYaml) {
-          showToast('ダウンロードするYAMLがまだ生成されていません', 'error');
-          return;
-        }
+        // --- Download YAML ---
+        btnDownloadYaml.addEventListener('click', () => {
+          if (!currentGeneratedYaml) {
+            showToast('ダウンロードするYAMLがまだ生成されていません', 'error');
+            return;
+          }
 
-        const blob = new Blob([currentGeneratedYaml], { type: 'text/yaml;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'map.yaml';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+          const blob = new Blob([currentGeneratedYaml], { type: 'text/yaml;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'map.yaml';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
 
-        showToast('map.yaml をダウンロードしました', 'success');
-      });
+          showToast('map.yaml をダウンロードしました', 'success');
+        });
 
-      // --- Demo Data Loader ---
-      btnLoadDemo.addEventListener('click', () => {
-        // High precision Tsukuba Challenge / UTM 54N typical GIS Map Demo
-        inputWidth.value = 4000;
-        inputHeight.value = 3000;
-        optImage.value = 'tsukuba_challenge_map.png';
+        // --- Demo Data Loader ---
+        btnLoadDemo.addEventListener('click', () => {
+          // High precision Tsukuba Challenge / UTM 54N typical GIS Map Demo
+          inputWidth.value = 4000;
+          inputHeight.value = 3000;
+          optImage.value = 'tsukuba_challenge_map.png';
 
-        paramRx.value = '0.0500000000';
-        paramRy.value = '-0.0500000000';
-        paramA.value = '0.0';
-        paramB.value = '0.0';
-        paramX.value = '392500.025000';
-        paramY.value = '3954200.025000';
+          paramRx.value = '0.0500000000';
+          paramRy.value = '-0.0500000000';
+          paramA.value = '0.0';
+          paramB.value = '0.0';
+          paramX.value = '392500.025000';
+          paramY.value = '3954200.025000';
 
-        rawPgwTextarea.value = [
-          '0.0500000000',
-          '0.0000000000',
-          '0.0000000000',
-          '-0.0500000000',
-          '392500.025000',
-          '3954200.025000'
-        ].join('\n');
+          rawPgwTextarea.value = [
+            '0.0500000000',
+            '0.0000000000',
+            '0.0000000000',
+            '-0.0500000000',
+            '392500.025000',
+            '3954200.025000'
+          ].join('\n');
 
-        imgStatusBadge.textContent = 'tsukuba_challenge_map.png (4000×3000)';
-        imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
-        pgwStatusBadge.textContent = 'デモPGW 読込完了';
-        pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800 font-mono';
+          imgStatusBadge.textContent = 'tsukuba_challenge_map.png (4000×3000)';
+          imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono';
+          pgwStatusBadge.textContent = 'デモPGW 読込完了';
+          pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800 font-mono';
 
-        // Draw synthetic map in canvas preview
-        const canvas = canvasPreview;
-        const ctx = canvas.getContext('2d');
-        canvas.width = 240;
-        canvas.height = 180;
-        // Background free space
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Grid pattern
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        for (let x = 0; x < canvas.width; x += 20) {
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-        }
-        for (let y = 0; y < canvas.height; y += 20) {
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-        }
-        // Obstacles (Black walls)
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(20, 20, 200, 8);
-        ctx.fillRect(20, 20, 8, 140);
-        ctx.fillRect(20, 152, 200, 8);
-        ctx.fillRect(212, 20, 8, 60);
-        ctx.fillRect(212, 100, 8, 60);
-        // Center obstacle
-        ctx.fillRect(80, 70, 80, 40);
+          // Draw synthetic map in canvas preview
+          const canvas = canvasPreview;
+          const ctx = canvas.getContext('2d');
+          canvas.width = 240;
+          canvas.height = 180;
+          // Background free space
+          ctx.fillStyle = '#f8fafc';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          // Grid pattern
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < canvas.width; x += 20) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+          }
+          for (let y = 0; y < canvas.height; y += 20) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+          }
+          // Obstacles (Black walls)
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(20, 20, 200, 8);
+          ctx.fillRect(20, 20, 8, 140);
+          ctx.fillRect(20, 152, 200, 8);
+          ctx.fillRect(212, 20, 8, 60);
+          ctx.fillRect(212, 100, 8, 60);
+          // Center obstacle
+          ctx.fillRect(80, 70, 80, 40);
 
-        canvasPreview.classList.remove('hidden');
-        imgPreview.classList.add('hidden');
-        previewPlaceholder.classList.add('hidden');
-        imgMetaTag.textContent = 'DEMO 4000×3000';
-        imgMetaTag.classList.remove('hidden');
+          canvasPreview.classList.remove('hidden');
+          imgPreview.classList.add('hidden');
+          previewPlaceholder.classList.add('hidden');
+          imgMetaTag.textContent = 'DEMO 4000×3000';
+          imgMetaTag.classList.remove('hidden');
 
+          calculateAndRender();
+          showToast('デモデータを読み込みました (W:4000, H:3000, Res:0.05)', 'success');
+        });
+
+        // --- Reset Tool ---
+        btnReset.addEventListener('click', () => {
+          inputWidth.value = '';
+          inputHeight.value = '';
+          paramRx.value = '';
+          paramRy.value = '';
+          paramX.value = '';
+          paramY.value = '';
+          paramA.value = '0.0';
+          paramB.value = '0.0';
+          rawPgwTextarea.value = '';
+          optImage.value = 'map.png';
+          optOccupied.value = '0.65';
+          optOccupiedSlider.value = '0.65';
+          labelOccupiedVal.textContent = '0.65';
+          optFree.value = '0.25';
+          optFreeSlider.value = '0.25';
+          labelFreeVal.textContent = '0.25';
+          optNegate.value = '0';
+          optMode.value = 'trinary';
+
+          imgStatusBadge.textContent = '未読み込み';
+          imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+          pgwStatusBadge.textContent = '未読み込み';
+          pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+
+          imgPreview.classList.add('hidden');
+          canvasPreview.classList.add('hidden');
+          previewPlaceholder.classList.remove('hidden');
+          imgMetaTag.classList.add('hidden');
+
+          calculateAndRender();
+          showToast('リセットしました', 'info');
+        });
+
+        // Initial calculation call
         calculateAndRender();
-        showToast('デモデータを読み込みました (W:4000, H:3000, Res:0.05)', 'success');
-      });
-
-      // --- Reset Tool ---
-      btnReset.addEventListener('click', () => {
-        inputWidth.value = '';
-        inputHeight.value = '';
-        paramRx.value = '';
-        paramRy.value = '';
-        paramX.value = '';
-        paramY.value = '';
-        paramA.value = '0.0';
-        paramB.value = '0.0';
-        rawPgwTextarea.value = '';
-        optImage.value = 'map.png';
-        optOccupied.value = '0.65';
-        optOccupiedSlider.value = '0.65';
-        labelOccupiedVal.textContent = '0.65';
-        optFree.value = '0.25';
-        optFreeSlider.value = '0.25';
-        labelFreeVal.textContent = '0.25';
-        optNegate.value = '0';
-        optMode.value = 'trinary';
-
-        imgStatusBadge.textContent = '未読み込み';
-        imgStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
-        pgwStatusBadge.textContent = '未読み込み';
-        pgwStatusBadge.className = 'text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
-
-        imgPreview.classList.add('hidden');
-        canvasPreview.classList.add('hidden');
-        previewPlaceholder.classList.remove('hidden');
-        imgMetaTag.classList.add('hidden');
-
-        calculateAndRender();
-        showToast('リセットしました', 'info');
-      });
-
-      // Initial calculation call
-      calculateAndRender();
-    })();
+      })();
   </script>
 </body>
+
 </html>
